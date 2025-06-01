@@ -2,7 +2,6 @@ package br.edu.ufam.model;
 
 public class UsuarioModel {
     private int id;
-    private String cpf;
     private String nome;
     private String telefone;
     private String email;
@@ -10,10 +9,9 @@ public class UsuarioModel {
     private String senha;
     private String funcao;
 
-    public UsuarioModel(int id, String cpf, String nome, String telefone, String email, String login, String senha,
+    public UsuarioModel(int id, String nome, String telefone, String email, String login, String senha,
             String funcao) {
         this.id = id;
-        this.cpf = cpf;
         this.nome = nome;
         this.telefone = telefone;
         this.email = email;
@@ -28,14 +26,6 @@ public class UsuarioModel {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
     }
 
     public String getNome() {

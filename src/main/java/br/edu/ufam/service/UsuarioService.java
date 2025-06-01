@@ -13,7 +13,7 @@ import br.edu.ufam.model.UsuarioModel;
 public class UsuarioService {
     public List<UsuarioModel> listarUsuarios() {
         List<UsuarioModel> usuarios = new ArrayList<>();
-        String sql = "SELECT id, cpf, nome, telefone, email, login, funcao FROM usuario";
+        String sql = "SELECT id, nome, telefone, email, login, funcao FROM usuario";
 
         try (Connection conn = ConexaoDatabase.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -22,7 +22,6 @@ public class UsuarioService {
             while (rs.next()) {
                 UsuarioModel usuario = new UsuarioModel(
                         rs.getInt("id"),
-                        rs.getString("cpf"),
                         rs.getString("nome"),
                         rs.getString("telefone"),
                         rs.getString("email"),
@@ -40,11 +39,10 @@ public class UsuarioService {
     }
 
     public void cadastrarUsuario(UsuarioModel usuario) {
-        String sql = "INSERT INTO usuario(cpf, nome, telefone, email, login, senha, funcao) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO usuario(nome, telefone, email, login, senha, funcao) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = ConexaoDatabase.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, usuario.getCpf());
             stmt.setString(2, usuario.getNome());
             stmt.setString(3, usuario.getTelefone());
             stmt.setString(4, usuario.getEmail());
@@ -64,19 +62,18 @@ public class UsuarioService {
         }
     }
 
-    public void alterarUsuario(String cpfBusca, UsuarioModel usuario) {
-        String sql = "UPDATE usuario SET cpf = ?, nome = ?, telefone = ?, email = ?, login = ?, senha = ?, funcao = ?  WHERE cpf = ?";
+    public void alterarUsuario(String nomeBusca, UsuarioModel usuario) {
+        String sql = "UPDATE usuario SET nome = ?, telefone = ?, email = ?, login = ?, senha = ?, funcao = ?  WHERE nome = ?";
 
         try (Connection conn = ConexaoDatabase.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, usuario.getCpf());
-            stmt.setString(2, usuario.getNome());
-            stmt.setString(3, usuario.getTelefone());
-            stmt.setString(4, usuario.getEmail());
-            stmt.setString(5, usuario.getLogin());
-            stmt.setString(6, usuario.getSenha());
-            stmt.setString(7, usuario.getFuncao());
-            stmt.setString(8, cpfBusca);
+            stmt.setString(1, usuario.getNome());
+            stmt.setString(2, usuario.getTelefone());
+            stmt.setString(3, usuario.getEmail());
+            stmt.setString(4, usuario.getLogin());
+            stmt.setString(5, usuario.getSenha());
+            stmt.setString(6, usuario.getFuncao());
+            stmt.setString(7, nomeBusca);
 
             int linha = stmt.executeUpdate();
 
@@ -90,20 +87,19 @@ public class UsuarioService {
         }
     }
 
-    public UsuarioModel pesquisarUsuario(String cpf) {
+    public UsuarioModel pesquisarUsuario(String nome) {
         UsuarioModel usuario = null;
-        String sql = "SELECT id, cpf, nome, telefone, email, login, funcao FROM  usuario WHERE cpf = ?";
+        String sql = "SELECT id, nome, telefone, email, login, funcao FROM  usuario WHERE nome = ?";
 
         try (Connection conn = ConexaoDatabase.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, cpf);
+            stmt.setString(1, nome);
 
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
                 usuario = new UsuarioModel(
                         rs.getInt("id"),
-                        cpf,
                         rs.getString("nome"),
                         rs.getString("telefone"),
                         rs.getString("email"),
@@ -114,7 +110,7 @@ public class UsuarioService {
                 System.out.println("Usuário não encontrado.");
             }
         } catch (SQLException e) {
-            System.out.println("Erro ao pesquisar usuários (" + cpf + "): " + e.getMessage());
+            System.out.println("Erro ao pesquisar usuários (" + nome + "): " + e.getMessage());
         }
 
         return usuario;
