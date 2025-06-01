@@ -1,0 +1,122 @@
+package br.edu.ufam.service;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import br.edu.ufam.config.ConexaoDatabase;
+import br.edu.ufam.model.UsuarioModel;
+
+public class UsuarioService {
+    public List<UsuarioModel> listarUsuarios() {
+        List<UsuarioModel> usuarios = new ArrayList<>();
+        String sql = "SELECT id, cpf, nome, telefone, email, login, funcao FROM usuario";
+
+        try (Connection conn = ConexaoDatabase.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                UsuarioModel usuario = new UsuarioModel(
+                        rs.getInt("id"),
+                        rs.getString("cpf"),
+                        rs.getString("nome"),
+                        rs.getString("telefone"),
+                        rs.getString("email"),
+                        rs.getString("login"),
+                        "********",
+                        rs.getString("funcao"));
+
+                usuarios.add(usuario);
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao listar usuários: " + e.getMessage());
+        }
+
+        return usuarios;
+    }
+
+    public void cadastrarUsuario(UsuarioModel usuario) {
+        String sql = "INSERT INTO usuario(cpf, nome, telefone, email, login, senha, funcao) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        try (Connection conn = ConexaoDatabase.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, usuario.getCpf());
+            stmt.setString(2, usuario.getNome());
+            stmt.setString(3, usuario.getTelefone());
+            stmt.setString(4, usuario.getEmail());
+            stmt.setString(5, usuario.getLogin());
+            stmt.setString(6, usuario.getSenha());
+            stmt.setString(7, usuario.getFuncao());
+
+            int linha = stmt.executeUpdate();
+
+            if (linha > 0) {
+                System.out.println("Usuário cadastrado com sucesso!");
+            } else {
+                System.out.println("Falha ao cadastrar usuário.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao cadastrar usuário: " + e.getMessage());
+        }
+    }
+
+    public void alterarUsuario(String cpfBusca, UsuarioModel usuario) {
+        String sql = "UPDATE usuario SET cpf = ?, nome = ?, telefone = ?, email = ?, login = ?, senha = ?, funcao = ?  WHERE cpf = ?";
+
+        try (Connection conn = ConexaoDatabase.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, usuario.getCpf());
+            stmt.setString(2, usuario.getNome());
+            stmt.setString(3, usuario.getTelefone());
+            stmt.setString(4, usuario.getEmail());
+            stmt.setString(5, usuario.getLogin());
+            stmt.setString(6, usuario.getSenha());
+            stmt.setString(7, usuario.getFuncao());
+            stmt.setString(8, cpfBusca);
+
+            int linha = stmt.executeUpdate();
+
+            if (linha > 0) {
+                System.out.println("Usuário alterado com sucesso!");
+            } else {
+                System.out.println("Falha ao alterar usuário.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao alterar usuário: " + e.getMessage());
+        }
+    }
+
+    public UsuarioModel pesquisarUsuario(String cpf) {
+        UsuarioModel usuario = null;
+        String sql = "SELECT id, cpf, nome, telefone, email, login, funcao FROM  usuario WHERE cpf = ?";
+
+        try (Connection conn = ConexaoDatabase.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, cpf);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                usuario = new UsuarioModel(
+                        rs.getInt("id"),
+                        cpf,
+                        rs.getString("nome"),
+                        rs.getString("telefone"),
+                        rs.getString("email"),
+                        rs.getString("login"),
+                        "********",
+                        rs.getString("funcao"));
+            } else {
+                System.out.println("Usuário não encontrado.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao pesquisar usuários (" + cpf + "): " + e.getMessage());
+        }
+
+        return usuario;
+    }
+}
