@@ -2,6 +2,7 @@ package br.edu.ufam;
 
 import java.util.Scanner;
 
+import br.edu.ufam.view.ProdutoView;
 import br.edu.ufam.service.AutenticacaoService;
 import br.edu.ufam.view.UsuarioView;
 
@@ -19,6 +20,7 @@ public class Main {
         while (true) {
             System.out.println("-------COFFECAKE-------");
             System.out.println("| 1 - Usuario |");
+            System.out.println("| 2 - Produto |");
             System.out.println("| 0 - Sair |");
             System.out.print("Opção: ");
             opcao = scanner.nextInt();
@@ -27,6 +29,9 @@ public class Main {
             switch (opcao) {
                 case 1:
                     UsuarioView.executar();
+                    break;
+                case 2:
+                    ProdutoView.executar();
                     break;
                 case 0:
                     scanner.close();

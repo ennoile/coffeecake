@@ -32,7 +32,7 @@ public class UsuarioService {
                 usuarios.add(usuario);
             }
         } catch (SQLException e) {
-            System.out.println("Erro ao listar usuários: " + e.getMessage());
+            System.out.println("Erro ao listar usuários! " + e.getMessage());
         }
 
         return usuarios;
@@ -83,7 +83,7 @@ public class UsuarioService {
                 System.out.println("Falha ao alterar usuário.");
             }
         } catch (SQLException e) {
-            System.out.println("Erro ao alterar usuário: " + e.getMessage());
+            System.out.println("Erro ao alterar usuário! " + e.getMessage());
         }
     }
 
