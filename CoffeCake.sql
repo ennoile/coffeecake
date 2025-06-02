@@ -1,148 +1,109 @@
-CREATE DATABASE CoffeCake;
+CREATE DATABASE CoffeeCake;
 
-CREATE TABLE Horario(
-ID_Horario INT PRIMARY KEY AUTO_INCREMENT,
-Periodo VARCHAR(50) NOT NULL
-);
+USE CoffeeCake;
 
-CREATE TABLE TipoRelatorio(
-ID_TipoRelatorio INT PRIMARY KEY AUTO_INCREMENT,
-Descricao VARCHAR(100) NOT NULL
-);
-
-CREATE TABLE Funcao(
-ID_Funcao INT PRIMARY KEY AUTO_INCREMENT,
-DescricaoFuncao VARCHAR(100) NOT NULL
+CREATE TABLE Cliente(
+	ID_Cliente INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	Nome VARCHAR(100) NOT NULL,
+	Telefone VARCHAR(15) NOT NULL,
+	Email VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE Comanda(
-ID_Comanda INT PRIMARY KEY AUTO_INCREMENT,
-Descricao VARCHAR(100),
-HorarioComanda TIME NOT NULL
+	ID_Comanda INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	Descricao VARCHAR(100),
+	HorarioComanda TIME NOT NULL,
+	ID_Cliente INT NOT NULL,
+	FOREIGN KEY (ID_Cliente) REFERENCES Cliente(ID_Cliente)
+);
+
+CREATE TABLE Venda(
+	ID_Venda INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	DataVenda DATE NOT NULL,
+	ValorTotal DECIMAL(9,2) NOT NULL,
+	ID_Comanda INT NOT NULL,
+	FOREIGN KEY (ID_Comanda) REFERENCES Comanda(ID_Comanda)
+);
+
+CREATE TABLE Usuario(
+	ID_Usuario INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	Nome VARCHAR(100) NOT NULL,
+	Telefone VARCHAR (15)NOT NULL,
+	Email VARCHAR(100) NOT NULL,
+	Funcao VARCHAR(50) NOT NULL,
+	Login VARCHAR(50) NOT NULL,
+	Senha VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE Pedido(
-ID_Pedido INT PRIMARY KEY AUTO_INCREMENT,
-QtdPedido INT NOT NULL CHECK (QtdPedido > 0),
-NomePedido VARCHAR(50) NOT NULL
-);
-
-CREATE TABLE Combo(
-ID_Combo INT PRIMARY KEY AUTO_INCREMENT,
-NomeCombo VARCHAR(100) NOT NULL
-);
-
-CREATE TABLE Pessoa(
-ID_Pessoa INT PRIMARY KEY AUTO_INCREMENT,
-Nome VARCHAR(50) NOT NULL,
-Telefone VARCHAR (15)NOT NULL,
-Email VARCHAR(100) NOT NULL,
-CPF CHAR(14) UNIQUE,
-ID_Funcao INT,
-FOREIGN KEY (ID_Funcao) REFERENCES Funcao(ID_Funcao),
-ID_Comanda INT,
-FOREIGN KEY (ID_Comanda) REFERENCES Comanda(ID_Comanda)
+	ID_Pedido INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	QtdPedido INT NOT NULL,
+	NomePedido VARCHAR(100),
+	DataPedido DATE NOT NULL,
+	ID_Comanda	INT NOT NULL,
+	ID_Usuario INT NOT NULL,
+	FOREIGN KEY (ID_Comanda) REFERENCES Comanda(ID_Comanda),
+	FOREIGN KEY (ID_Usuario) REFERENCES Usuario(ID_Usuario)
 );
 
 CREATE TABLE Produto(
-ID_Produto INT PRIMARY KEY AUTO_INCREMENT,
-NomeProduto VARCHAR(100) NOT NULL,
-QtdProduto INT NOT NULL CHECK (QtdProduto > 0),
-Preco DECIMAL(9,2) NOT NULL,
-ID_Horario INT,
-FOREIGN KEY (ID_Horario) REFERENCES Horario(ID_Horario),
-ID_Pessoa INT,
-FOREIGN KEY (ID_Pessoa) REFERENCES Pessoa(ID_Pessoa)
+	ID_Produto INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	NomeProduto VARCHAR(100) NOT NULL,
+	PrecoProduto DECIMAL(9,2) NOT NULL,
+	Descricao VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE Vendas(
-ID_Vendas INT PRIMARY KEY AUTO_INCREMENT,
-QtdVendas INT NOT NULL,
-ValorTotal DECIMAL(9,2) NOT NULL,
-ID_Pessoa INT,
-FOREIGN KEY (ID_Pessoa) REFERENCES Pessoa(ID_Pessoa)
+CREATE TABLE Combo(
+	ID_Combo INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	NomeCombo VARCHAR(100) NOT NULL,
+	PrecoCombo DECIMAL(9,2) NOT NULL
 );
 
-CREATE TABLE Estoque(
-ID_Estoque INT PRIMARY KEY AUTO_INCREMENT,
-Materiais VARCHAR(250) NOT NULL,
-Equipamentos VARCHAR(250) NOT NULL,
-ID_Vendas INT,
-FOREIGN KEY (ID_Vendas) REFERENCES Vendas(ID_Vendas)
+CREATE TABLE PedidoCombo(
+	QtdCombo INT NOT NULL,
+	ID_Pedido INT NOT NULL,
+	ID_Combo INT NOT NULL,
+	PRIMARY KEY (ID_Pedido, ID_Combo),
+	FOREIGN KEY (ID_Pedido) REFERENCES Pedido(ID_Pedido),
+	FOREIGN KEY (ID_Combo) REFERENCES Combo(ID_Combo)
+);
+
+CREATE TABLE PedidoProduto(
+	ID_Pedido INT NOT NULL,
+	ID_Produto INT NOT NULL,
+	QtdProduto INT NOT NULL,
+	PRIMARY KEY (ID_Pedido, ID_Produto),
+	FOREIGN KEY (ID_Pedido) REFERENCES Pedido(ID_Pedido),
+	FOREIGN KEY (ID_Produto) REFERENCES Produto(ID_Produto)
 );
 
 CREATE TABLE Ingrediente(
-ID_Ingrediente INT PRIMARY KEY AUTO_INCREMENT,
-NomeIngrediente VARCHAR(50) NOT NULL,
-TipoIngrediente VARCHAR(50) NOT NULL,
-Peso DECIMAL(10,2) NOT NULL,
-ID_Estoque INT,
-FOREIGN KEY (ID_Estoque) REFERENCES Estoque(ID_Estoque)
+	ID_Ingrediente INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	NomeIngrediente VARCHAR(100) NOT NULL,
+	Descricao VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE Relatorio(
-ID_Relatorio INT PRIMARY KEY AUTO_INCREMENT,
-Horario TIME NOT NULL, 
-Data DATE NOT NULL,
-ID_Pessoa INT,
-FOREIGN KEY (ID_Pessoa) REFERENCES Pessoa(ID_Pessoa),
-ID_TipoRelatorio INT,
-FOREIGN KEY (ID_TipoRelatorio) REFERENCES TipoRelatorio(ID_TipoRelatorio)
+CREATE TABLE ProdutoIngrediente(
+	ID_Produto INT NOT NULL,
+	ID_Ingrediente INT NOT NULL,
+	QtdUtilizada INT NOT NULL, 
+	PRIMARY KEY (ID_Produto, ID_Ingrediente),
+	FOREIGN KEY (ID_Produto) REFERENCES Produto(ID_Produto),
+	FOREIGN KEY (ID_Ingrediente) REFERENCES Ingrediente(ID_Ingrediente)
 );
 
-CREATE TABLE Login(
-ID_Usuario INT PRIMARY KEY AUTO_INCREMENT,
-Usuario VARCHAR(50) NOT NULL UNIQUE,
-Senha VARCHAR(15) NOT NULL,
-ID_Pessoa INT UNIQUE,
-FOREIGN KEY (ID_Pessoa) REFERENCES Pessoa(ID_Pessoa)
+CREATE TABLE EstoqueProduto(
+	ID_EstoqueProduto INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	QtdDisponivel INT NOT NULL,
+	DataEntrada DATE NOT NULL,
+	ID_Produto INT NOT NULL,
+	FOREIGN KEY (ID_Produto) REFERENCES Produto(ID_Produto)
 );
 
-CREATE TABLE PossuiIngrediente(
-PRIMARY KEY (ID_Produto, ID_Ingrediente),
-ID_Produto INT,
-FOREIGN KEY (ID_Produto) REFERENCES Produto(ID_Produto),
-ID_Ingrediente INT,
-FOREIGN KEY (ID_Ingrediente) REFERENCES Ingrediente(ID_Ingrediente)
-);
-
-CREATE TABLE PossuiCombo(
-Quantidade INT NOT NULL,
-PRIMARY KEY (ID_Produto, ID_Combo),
-ID_Produto INT,
-FOREIGN KEY (ID_Produto) REFERENCES Produto(ID_Produto),
-ID_Combo INT, 
-FOREIGN KEY (ID_Combo) REFERENCES Combo(ID_Combo)
-);
-
-CREATE TABLE TemPedido(
-PRIMARY KEY (ID_Produto, ID_Pedido),
-ID_Produto INT,
-FOREIGN KEY (ID_Produto) REFERENCES Produto(ID_Produto),
-ID_Pedido INT,
-FOREIGN KEY (ID_Pedido) REFERENCES Pedido(ID_Pedido)
-);
-
-CREATE TABLE PossuiVendas(
-PRIMARY KEY (ID_Produto, ID_Vendas),
-ID_Produto INT,
-FOREIGN KEY (ID_Produto) REFERENCES Produto(ID_Produto),
-ID_Vendas INT,
-FOREIGN KEY (ID_Vendas) REFERENCES Vendas(ID_Vendas)
-);
-
-CREATE TABLE GeraPedido(
-PRIMARY KEY (ID_Vendas, ID_Pedido),
-ID_Vendas INT,
-FOREIGN KEY (ID_Vendas) REFERENCES Vendas(ID_Vendas),
-ID_Pedido INT,
-FOREIGN KEY (ID_Pedido) REFERENCES Pedido(ID_Pedido)
-);
-
-CREATE TABLE CriaComanda(
-PRIMARY KEY (ID_Pessoa, ID_Comanda),
-ID_Pessoa INT,
-FOREIGN KEY (ID_Pessoa) REFERENCES Pessoa(ID_Pessoa),
-ID_Comanda INT,
-FOREIGN KEY (ID_Comanda) REFERENCES Comanda(ID_Comanda)
+CREATE TABLE EstoqueIngrediente(
+	ID_EstoqueIngrediente INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+	QtdDisponivel INT NOT NULL,
+	DataEntrada DATE NOT NULL,
+	ID_Ingrediente INT NOT NULL,
+	FOREIGN KEY (ID_Ingrediente) REFERENCES Ingrediente(ID_Ingrediente)
 );

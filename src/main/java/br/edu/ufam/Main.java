@@ -2,17 +2,13 @@ package br.edu.ufam;
 
 import java.util.Scanner;
 
-import br.edu.ufam.view.ProdutoView;
 import br.edu.ufam.service.AutenticacaoService;
+import br.edu.ufam.view.ProdutoView;
 import br.edu.ufam.view.UsuarioView;
 
 public class Main {
     public static void main(String[] args) {
         AutenticacaoService autenticacaoService = new AutenticacaoService();
-
-        while (!autenticacaoService.isAutenticado()) {
-            autenticacaoService.login();
-        }
 
         Scanner scanner = new Scanner(System.in);
         int opcao = 0;
