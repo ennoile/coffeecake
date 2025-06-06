@@ -11,6 +11,10 @@ public class Main {
     public static void main(String[] args) {
         AutenticacaoService autenticacaoService = new AutenticacaoService();
 
+        while (!autenticacaoService.isAutenticado()) {
+            autenticacaoService.login();
+        }
+
         Scanner scanner = new Scanner(System.in);
         int opcao = 0;
 
