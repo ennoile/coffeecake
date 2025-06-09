@@ -16,7 +16,7 @@ public class AutenticacaoView {
 
             switch (opcao) {
                 case 1:
-                    autenticacaoService.login();
+                    // autenticacaoService.login();
                     break;
                 case 0:
                     System.out.println("Saindo...");
