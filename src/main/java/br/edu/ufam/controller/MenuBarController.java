@@ -25,6 +25,12 @@ public class MenuBarController {
     }
 
     @FXML
+    public void clickCadastrarCliente() throws IOException {
+        System.out.println("Cadastro de Cliente clicado.");
+        Main.setRoot("cadastro_cliente");
+    }
+
+    @FXML
     public void clickLogout() throws IOException {
         System.out.println("Logout clicado.");
         Main.usuarioLogado = null;
