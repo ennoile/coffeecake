@@ -8,7 +8,7 @@ import br.edu.ufam.service.UsuarioService;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
-public class CadastroUsuario {
+public class CadastroUsuarioController {
     @FXML
     private TextField txtNome;
     @FXML
