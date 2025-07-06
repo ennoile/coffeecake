@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="fundo-principal" stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ufam.controller.LoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="fundo-principal" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fitHeight="301.0" fitWidth="600.0" mouseTransparent="true">
          <image>
@@ -28,10 +28,10 @@
          </image>
       </ImageView>
       <Line endX="100.0" endY="12.0" layoutX="200.0" layoutY="322.0" startX="100.0" startY="-265.0" />
-      <TextField fx:id="txtLogin" layoutX="336.0" layoutY="168.0" prefHeight="25.0" prefWidth="193.0" styleClass="caixa-texto" />
+      <TextField layoutX="336.0" layoutY="168.0" prefHeight="25.0" prefWidth="193.0" styleClass="caixa-texto" />
       <Label layoutX="338.0" layoutY="151.0" mouseTransparent="true" text="Login" />
-      <PasswordField fx:id="txtSenha" layoutX="338.0" layoutY="217.0" prefHeight="25.0" prefWidth="193.0" styleClass="caixa-texto" />
-      <Button layoutX="395.0" layoutY="259.0" mnemonicParsing="false" onAction="#clickLogin" prefHeight="25.0" prefWidth="79.0" styleClass="botao-principal" text="Entrar">
+      <PasswordField layoutX="338.0" layoutY="217.0" prefHeight="25.0" prefWidth="193.0" styleClass="caixa-texto" />
+      <Button layoutX="395.0" layoutY="259.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="79.0" styleClass="botao-principal" text="Entrar">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>

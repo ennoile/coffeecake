@@ -8,4 +8,5 @@ module br.edu.ufam {
     opens br.edu.ufam.controller to javafx.fxml;
 
     exports br.edu.ufam;
+    exports br.edu.ufam.model;
 }

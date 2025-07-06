@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-// import java.util.Scanner;
 
 import br.edu.ufam.config.ConexaoDatabase;
 import br.edu.ufam.model.UsuarioModel;
@@ -12,7 +11,6 @@ import br.edu.ufam.model.UsuarioModel;
 public class AutenticacaoService {
     private boolean autenticado = false;
     private UsuarioModel usuarioLogado = null;
-    // private Scanner scanner = new Scanner(System.in);
 
     public boolean isAutenticado() {
         return autenticado;
@@ -23,11 +21,6 @@ public class AutenticacaoService {
     }
 
     public void login(String login, String senha) {
-        // System.out.print("login: ");
-        // String login = scanner.nextLine();
-        // System.out.print("senha: ");
-        // String senha = scanner.nextLine();
-
         String sql = "SELECT id, nome, telefone, email, login, funcao FROM usuario WHERE login = ? AND senha = ?";
 
         try (Connection conn = ConexaoDatabase.getConnection();
