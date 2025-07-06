@@ -21,19 +21,19 @@
                         <VBox prefHeight="11.0" prefWidth="258.0">
                            <children>
                               <Label text="Nome" />
-                              <TextField prefHeight="25.0" prefWidth="202.0" styleClass="caixa-texto" />
+                              <TextField fx:id="txtNome" prefHeight="25.0" prefWidth="202.0" styleClass="caixa-texto" />
                            </children>
                         </VBox>
                         <VBox prefHeight="11.0" prefWidth="258.0">
                            <children>
                               <Label text="Email" />
-                              <TextField prefHeight="25.0" prefWidth="202.0" styleClass="caixa-texto" />
+                              <TextField fx:id="txtEmail" prefHeight="25.0" prefWidth="202.0" styleClass="caixa-texto" />
                            </children>
                         </VBox>
                         <VBox layoutX="10.0" layoutY="58.0" prefHeight="11.0" prefWidth="258.0">
                            <children>
                               <Label text="Telefone" />
-                              <TextField prefHeight="25.0" prefWidth="202.0" styleClass="caixa-texto" />
+                              <TextField fx:id="txtTelefone" prefHeight="25.0" prefWidth="202.0" styleClass="caixa-texto" />
                            </children>
                         </VBox>
                      </children>
@@ -43,19 +43,19 @@
                         <VBox prefHeight="11.0" prefWidth="258.0">
                            <children>
                               <Label text="Função" />
-                              <TextField prefHeight="25.0" prefWidth="202.0" styleClass="caixa-texto" />
+                              <TextField fx:id="txtFuncao" prefHeight="25.0" prefWidth="202.0" styleClass="caixa-texto" />
                            </children>
                         </VBox>
                         <VBox prefHeight="11.0" prefWidth="258.0">
                            <children>
                               <Label text="Login" />
-                              <TextField prefHeight="25.0" prefWidth="202.0" styleClass="caixa-texto" />
+                              <TextField fx:id="txtLogin" prefHeight="25.0" prefWidth="202.0" styleClass="caixa-texto" />
                            </children>
                         </VBox>
                         <VBox layoutX="10.0" layoutY="58.0" prefHeight="11.0" prefWidth="258.0">
                            <children>
                               <Label text="Senha" />
-                              <TextField prefHeight="25.0" prefWidth="202.0" styleClass="caixa-texto" />
+                              <TextField fx:id="txtSenha" prefHeight="25.0" prefWidth="202.0" styleClass="caixa-texto" />
                            </children>
                         </VBox>
                      </children>

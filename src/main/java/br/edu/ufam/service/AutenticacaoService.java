@@ -21,7 +21,7 @@ public class AutenticacaoService {
     }
 
     public void login(String login, String senha) {
-        String sql = "SELECT id, nome, telefone, email, login, funcao FROM usuario WHERE login = ? AND senha = ?";
+        String sql = "SELECT id_usuario, nome, telefone, email, login, funcao FROM usuario WHERE login = ? AND senha = ?";
 
         try (Connection conn = ConexaoDatabase.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -32,7 +32,7 @@ public class AutenticacaoService {
 
             if (rs.next()) {
                 UsuarioModel usuario = new UsuarioModel(
-                        rs.getInt("id"),
+                        rs.getInt("id_usuario"),
                         rs.getString("nome"),
                         rs.getString("telefone"),
                         rs.getString("email"),

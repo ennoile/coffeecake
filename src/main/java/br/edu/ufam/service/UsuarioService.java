@@ -43,12 +43,12 @@ public class UsuarioService {
 
         try (Connection conn = ConexaoDatabase.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(2, usuario.getNome());
-            stmt.setString(3, usuario.getTelefone());
-            stmt.setString(4, usuario.getEmail());
-            stmt.setString(5, usuario.getLogin());
-            stmt.setString(6, usuario.getSenha());
-            stmt.setString(7, usuario.getFuncao());
+            stmt.setString(1, usuario.getNome());
+            stmt.setString(2, usuario.getTelefone());
+            stmt.setString(3, usuario.getEmail());
+            stmt.setString(4, usuario.getLogin());
+            stmt.setString(5, usuario.getSenha());
+            stmt.setString(6, usuario.getFuncao());
 
             int linha = stmt.executeUpdate();
 

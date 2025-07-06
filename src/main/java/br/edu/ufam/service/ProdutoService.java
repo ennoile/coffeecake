@@ -15,7 +15,7 @@ import br.edu.ufam.model.ProdutoModel;
 public class ProdutoService {
     public List<ProdutoModel> listarProdutos() {
         List<ProdutoModel> produtos = new ArrayList<>();
-        String sql = "SELECT id, nome, preco, descricao from produto";
+        String sql = "SELECT id, nome, preco, descricao, quantidade_estoque from produto";
 
         try (Connection conn = ConexaoDatabase.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -23,10 +23,11 @@ public class ProdutoService {
 
             while (rs.next()) {
                 ProdutoModel produto = new ProdutoModel(
-                        rs.getInt("id"),
+                        rs.getInt("id_produto"),
                         rs.getString("nome"),
                         rs.getFloat("preco"),
-                        rs.getString("descricao"));
+                        rs.getString("descricao"),
+                        rs.getInt("quantidade_estoque"));
                 produtos.add(produto);
             }
 
@@ -37,13 +38,14 @@ public class ProdutoService {
     }
 
     public ProdutoModel cadastrarProduto(ProdutoModel produto) {
-        String sql = "INSERT INTO produto(nome, preco, descricao) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO produto(nome, preco, descricao, quantidade_disponivel) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = ConexaoDatabase.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, produto.getNome());
             stmt.setFloat(2, produto.getPreco());
             stmt.setString(3, produto.getDescricao());
+            stmt.setInt(4, produto.getQuantidade());
 
             int linha = stmt.executeUpdate();
 
@@ -102,7 +104,8 @@ public class ProdutoService {
                         rs.getInt("id"),
                         rs.getString("nome"),
                         rs.getFloat("preco"),
-                        rs.getString("descricao"));
+                        rs.getString("descricao"),
+                        rs.getInt("quantidade_disponivel"));
             } else {
                 System.out.println("Produto não encontrado!");
             }
@@ -153,35 +156,5 @@ public class ProdutoService {
         } catch (SQLException e) {
             System.out.println("Erro ao alterar estoque: " + e.getMessage());
         }
-    }
-
-    public List<EstoqueProduto> listarEstoque() {
-        List<EstoqueProduto> estoqueProdutos = new ArrayList<>();
-        String sql = "SELECT ep.id, p.id AS id_produto, p.nome, ep.quantidade, ep.data_entrada FROM estoque_produto ep JOIN produto p ON ep.id_produto = p.id";
-
-        try (Connection conn = ConexaoDatabase.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                ProdutoModel produto = new ProdutoModel(
-                        rs.getInt("id_produto"),
-                        rs.getString("nome"),
-                        0f, 
-                        null);
-
-                EstoqueProduto estoque = new EstoqueProduto(
-                        rs.getInt("id"),
-                        produto,
-                        rs.getInt("quantidade"),
-                        rs.getTimestamp("data_entrada").toLocalDateTime());
-
-                estoqueProdutos.add(estoque);
-            }
-        } catch (SQLException e) {
-            System.out.println("Erro ao listar estoque: " + e.getMessage());
-        }
-
-        return estoqueProdutos;
     }
 }

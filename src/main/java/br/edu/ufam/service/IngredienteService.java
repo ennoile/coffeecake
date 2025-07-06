@@ -13,7 +13,7 @@ import br.edu.ufam.model.IngredienteModel;
 public class IngredienteService {
     public List<IngredienteModel> listarIngrediente() {
         List<IngredienteModel> ingredientes = new ArrayList<>();
-        String sql = "SELECT ID_Ingrediente, NomeIngrediente, Descricao FROM ingrediente";
+        String sql = "SELECT id_ingrediente, nome, decricao, quantidade FROM ingrediente";
 
         try (Connection conn = ConexaoDatabase.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -21,9 +21,10 @@ public class IngredienteService {
 
             while (rs.next()) {
                 IngredienteModel ingrediente = new IngredienteModel(
-                        rs.getInt("ID_Ingrediente"),
-                        rs.getString("NomeIngrediente"),
-                        rs.getString("Descricao"));
+                        rs.getInt("id_ingrediente"),
+                        rs.getString("nome"),
+                        rs.getString("descricao"),
+                        rs.getInt("quantidade"));
 
                 ingredientes.add(ingrediente);
             }
@@ -35,12 +36,13 @@ public class IngredienteService {
     }
 
     public void cadastrarIngrediente(IngredienteModel ingrediente) {
-        String sql = "INSERT INTO ingrediente (NomeIngrediente, Descricao) VALUES (?, ?)";
+        String sql = "INSERT INTO ingrediente (nome,descricao,quantidade_disponivel) VALUES (?,?,?)";
 
         try (Connection conn = ConexaoDatabase.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, ingrediente.getNome());
             stmt.setString(2, ingrediente.getDescricao());
+            stmt.setInt(3, ingrediente.getQuantidade());
 
             int linha = stmt.executeUpdate();
 
@@ -77,7 +79,7 @@ public class IngredienteService {
 
     public IngredienteModel pesquisarIngrediente(String nome) {
         IngredienteModel ingrediente = null;
-        String sql = "SELECT ID_Ingrediente, NomeIngrediente, Descricao FROM ingrediente WHERE NomeIngrediente = ?";
+        String sql = "SELECT id_ingrediente, nome, descricao FROM ingrediente WHERE nome = ?";
 
         try (Connection conn = ConexaoDatabase.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -87,9 +89,10 @@ public class IngredienteService {
 
             if (rs.next()) {
                 ingrediente = new IngredienteModel(
-                        rs.getInt("ID_Ingrediente"),
-                        rs.getString("NomeIngrediente"),
-                        rs.getString("Descricao"));
+                        rs.getInt("id_ngrediente"),
+                        rs.getString("nome"),
+                        rs.getString("descricao"),
+                        rs.getInt("quantidade"));
             } else {
                 System.out.println("Ingrediente não encontrado.");
             }

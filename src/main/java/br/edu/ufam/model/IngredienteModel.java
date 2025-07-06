@@ -4,11 +4,13 @@ public class IngredienteModel {
     private int id;
     private String nome;
     private String descricao;
+    private int quantidade;
 
-    public IngredienteModel(int id, String nome, String descricao) {
+    public IngredienteModel(int id, String nome, String descricao, int quantidade) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
+        this.quantidade = quantidade;
     }
 
     public int getId() {
@@ -33,5 +35,11 @@ public class IngredienteModel {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+    public int getQuantidade(){
+        return quantidade;
+    }
+    public void setQuantodade(int quantidade){
+        this.quantidade = quantidade;
     }
 }

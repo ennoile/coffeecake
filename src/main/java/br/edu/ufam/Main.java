@@ -17,7 +17,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("login"), 600, 400);
+        scene = new Scene(loadFXML("inicio"), 600, 400);
         stage.setScene(scene);
         stage.setTitle("CoffeeCake - Sistema de Gestão de Cafeterias");
         centerStage(600, 400);
