@@ -23,7 +23,8 @@
     </Menu>
     <Menu mnemonicParsing="false" text="Cliente">
       <items>
-        <MenuItem mnemonicParsing="false" onAction="#clickCadastrarCliente" text="Cadastrar" />
+        <MenuItem mnemonicParsing="false" onAction="#clickListarClientes" text="Listar" />
+            <MenuItem mnemonicParsing="false" onAction="#clickCadastrarCliente" text="Cadastrar" />
       </items>
     </Menu>
     <Menu mnemonicParsing="false" text="Opções">

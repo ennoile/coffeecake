@@ -25,6 +25,12 @@ public class MenuBarController {
     }
 
     @FXML
+    public void clickListarClientes() throws IOException {
+        System.out.println("Listar Clientes clicado.");
+        Main.setRoot("lista_cliente");
+    }
+
+    @FXML
     public void clickCadastrarCliente() throws IOException {
         System.out.println("Cadastro de Cliente clicado.");
         Main.setRoot("cadastro_cliente");

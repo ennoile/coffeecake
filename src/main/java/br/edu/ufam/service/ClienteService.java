@@ -2,12 +2,40 @@ package br.edu.ufam.service;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import br.edu.ufam.config.ConexaoDatabase;
 import br.edu.ufam.model.ClienteModel;
 
 public class ClienteService {
+    public List<ClienteModel> listarClientes() {
+        List<ClienteModel> clientes = new ArrayList<>();
+        String sql = "SELECT id_cliente, cpf, nome, email, telefone FROM cliente";
+
+        try (Connection conn = ConexaoDatabase.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                ClienteModel cliente = new ClienteModel(
+                        rs.getInt("id_cliente"),
+                        rs.getString("cpf"),
+                        rs.getString("nome"),
+                        rs.getString("email"),
+                        rs.getString("telefone"));
+
+                clientes.add(cliente);
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao listar clientes: " + e.getMessage());
+        }
+
+        return clientes;
+    }
+
     public void cadastrarCliente(ClienteModel cliente) {
         String sql = "INSERT INTO cliente(cpf, nome, email, telefone) VALUES (?, ?, ?, ?)";
 

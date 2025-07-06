@@ -69,6 +69,10 @@ public class Main extends Application {
         stage.setResizable(resizable);
     }
 
+    public static Scene getScene() {
+        return scene;
+    }
+
     public static void main(String[] args) {
         launch();
     }
