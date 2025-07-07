@@ -39,7 +39,6 @@ public class ListaClienteController {
         colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         colTelefone.setCellValueFactory(new PropertyValueFactory<>("telefone"));
 
-        // Carrega os dados
         carregarClientes();
 
         tableView.setOnMouseClicked(event -> {
@@ -57,22 +56,17 @@ public class ListaClienteController {
 
     private void abrirTelaEdicao(ClienteModel cliente) {
         try {
-            // Carrega o FXML manualmente
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("edita_cliente.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("cadastro_cliente.fxml"));
             Parent root = loader.load();
 
-            // Obtém o controller da tela de cadastro
-            EditaClienteController controller = loader.getController();
+            CadastroClienteController controller = loader.getController();
             controller.preencherFormulario(cliente);
 
-            // Usa a scene já existente (mantém Stage)
-            Scene scene = Main.getScene(); // você precisa criar esse método se ainda não tiver
+            Scene scene = Main.getScene();
             scene.setRoot(root);
 
-            // Ajusta a janela
             Main.setMinWindowSize(600, 400);
             Main.setResizable(false);
-
         } catch (IOException e) {
             e.printStackTrace();
         }

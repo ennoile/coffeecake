@@ -57,4 +57,27 @@ public class ClienteService {
             System.out.println("Erro ao cadastrar cliente: " + e.getMessage());
         }
     }
+
+    public void alterarCliente(ClienteModel cliente) {
+        String sql = "UPDATE cliente SET cpf = ?, nome = ?, email = ?, telefone = ? WHERE id_cliente = ?";
+
+        try (Connection conn = ConexaoDatabase.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, cliente.getCpf());
+            stmt.setString(2, cliente.getNome());
+            stmt.setString(3, cliente.getEmail());
+            stmt.setString(4, cliente.getTelefone());
+            stmt.setInt(5, cliente.getId());
+
+            int linha = stmt.executeUpdate();
+
+            if (linha > 0) {
+                System.out.println("Cliente alterado com sucesso!");
+            } else {
+                System.out.println("Falha ao alterar cliente.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error ao alterar produto!" + e.getMessage());
+        }
+    }
 }
