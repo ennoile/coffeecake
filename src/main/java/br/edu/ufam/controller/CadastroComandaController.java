@@ -31,6 +31,8 @@ import javafx.stage.StageStyle;
 public class CadastroComandaController {
     private final ComandaService comandaService = new ComandaService();
 
+    private int idComanda = -1;
+
     private ClienteModel clienteComanda;
     private List<ComandaProdutoTableModel> produtosComanda;
 
@@ -70,7 +72,6 @@ public class CadastroComandaController {
         configurarColunaRemover();
         txtValorPago.textProperty().addListener((obs, oldValue, newValue) -> atualizarTroco());
         aplicarMascaraMonetaria(txtValorPago);
-
     }
 
     private void setClienteComanda(ClienteModel cliente) {
@@ -242,7 +243,7 @@ public class CadastroComandaController {
 
     public void salvarComanda(String operacao) {
         if (clienteComanda != null) {
-            int id = 0;
+            int id = idComanda;
             String dataCriacao = new java.sql.Timestamp(System.currentTimeMillis()).toString();
             String status = operacao;
             ClienteModel cliente = clienteComanda;
@@ -251,7 +252,12 @@ public class CadastroComandaController {
                     : Float.parseFloat(txtValorTotal.getText().replace("R$", "").replace(",", ".").trim());
 
             ComandaModel comanda = new ComandaModel(id, dataCriacao, status, cliente, usuario, valorTotal);
-            comandaService.cadastrarComanda(comanda, produtosComanda);
+            if (idComanda == -1) {
+                comandaService.cadastrarComanda(comanda, produtosComanda);
+            } else {
+                comandaService.atualizarComanda(comanda, produtosComanda);
+            }
+
         } else {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Erro");
@@ -266,5 +272,14 @@ public class CadastroComandaController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setComanda(ComandaModel comanda) {
+        idComanda = comanda.getId();
+        clienteComanda = comanda.getCliente();
+        produtosComanda = comandaService.listarComandaProduto(idComanda);
+        carregarProdutos();
+        atualizarValorTotal();
+        setClienteComanda(clienteComanda);
     }
 }

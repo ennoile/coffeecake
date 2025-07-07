@@ -1,11 +1,15 @@
 package br.edu.ufam.controller;
 
+import br.edu.ufam.Main;
 import br.edu.ufam.model.ClienteModel;
 import br.edu.ufam.model.ComandaModel;
 import br.edu.ufam.service.ComandaService;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -51,7 +55,7 @@ public class ListaComandaController {
         tableView.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2 && tableView.getSelectionModel().getSelectedItem() != null) {
                 ComandaModel comandaSelecionado = tableView.getSelectionModel().getSelectedItem();
-                System.out.println("Comanda selecionada: " + comandaSelecionado.getId());
+                abrirTelaEdicao(comandaSelecionado);
             }
         });
     }
@@ -65,5 +69,23 @@ public class ListaComandaController {
     public void setFiltroStatus(String filtroStatus) {
         this.filtroStatus = filtroStatus;
         carregarComanda();
+    }
+
+    private void abrirTelaEdicao(ComandaModel comanda) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("cadastro_comanda.fxml"));
+            Parent root = loader.load();
+
+            CadastroComandaController controller = loader.getController();
+            controller.setComanda(comanda);
+
+            Scene scene = Main.getScene();
+            scene.setRoot(root);
+
+            Main.setMinWindowSize(600, 400);
+            Main.setResizable(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
