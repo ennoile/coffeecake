@@ -13,6 +13,9 @@
     </Menu>
     <Menu mnemonicParsing="false" text="Ingrediente">
       <items>
+        <MenuItem mnemonicParsing="false" onAction="#clickListarIngredientes" text="Listar" />
+      </items>
+      <items>
         <MenuItem mnemonicParsing="false" onAction="#clickCadastrarIngrediente" text="Cadastrar" />
       </items>
     </Menu>

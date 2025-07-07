@@ -11,9 +11,9 @@ import br.edu.ufam.config.ConexaoDatabase;
 import br.edu.ufam.model.IngredienteModel;
 
 public class IngredienteService {
-    public List<IngredienteModel> listarIngrediente() {
+    public List<IngredienteModel> listarIngredientes() {
         List<IngredienteModel> ingredientes = new ArrayList<>();
-        String sql = "SELECT id_ingrediente, nome, decricao, quantidade FROM ingrediente";
+        String sql = "SELECT id_ingrediente, nome, descricao, quantidade_disponivel FROM ingrediente";
 
         try (Connection conn = ConexaoDatabase.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -24,7 +24,7 @@ public class IngredienteService {
                         rs.getInt("id_ingrediente"),
                         rs.getString("nome"),
                         rs.getString("descricao"),
-                        rs.getInt("quantidade"));
+                        rs.getInt("quantidade_disponivel"));
 
                 ingredientes.add(ingrediente);
             }
@@ -56,14 +56,15 @@ public class IngredienteService {
         }
     }
 
-    public void alterarIngrediente(String nomeBusca, IngredienteModel ingrediente) {
-        String sql = "UPDATE ingrediente SET NomeIngrediente = ?, Descricao = ?  WHERE NomeIngrediente = ?";
+    public void alterarIngrediente(IngredienteModel ingrediente) {
+        String sql = "UPDATE ingrediente SET nome = ?, descricao = ?, quantidade_disponivel = ?  WHERE id_ingrediente = ?";
 
         try (Connection conn = ConexaoDatabase.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, ingrediente.getNome());
             stmt.setString(2, ingrediente.getDescricao());
-            stmt.setString(3, nomeBusca);
+            stmt.setInt(3, ingrediente.getQuantidade());
+            stmt.setInt(4, ingrediente.getId());
 
             int linha = stmt.executeUpdate();
 

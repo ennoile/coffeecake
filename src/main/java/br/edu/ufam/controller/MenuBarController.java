@@ -19,6 +19,12 @@ public class MenuBarController {
     }
 
     @FXML
+    public void clickListarIngredientes() throws IOException {
+        System.out.println("Listar Ingredientes clicado.");
+        Main.setRoot("lista_ingrediente");
+    }
+
+    @FXML
     public void clickCadastrarProduto() throws IOException {
         System.out.println("Cadastro de Produto clicado.");
         Main.setRoot("cadastro_produto");

@@ -11,7 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
 public class CadastroClienteController {
-    ClienteService clienteService = new ClienteService();
+    private final ClienteService clienteService = new ClienteService();
 
     private int idCliente = -1;
 
@@ -27,7 +27,7 @@ public class CadastroClienteController {
     @FXML
     private Label lblTitulo;
     @FXML
-    Button btnSalvar;
+    private Button btnSalvar;
 
     @FXML
     public void initialize() {
@@ -37,26 +37,20 @@ public class CadastroClienteController {
 
     @FXML
     public void clickSalvar() throws IOException {
-        if (idCliente == -1) {
-            String cpf = txtCpf.getText();
-            String nome = txtNome.getText();
-            String email = txtEmail.getText();
-            String telefone = txtTelefone.getText();
+        String cpf = txtCpf.getText();
+        String nome = txtNome.getText();
+        String email = txtEmail.getText();
+        String telefone = txtTelefone.getText();
 
+        if (idCliente == -1) {
             ClienteModel cliente = new ClienteModel(0, cpf, nome, email, telefone);
             clienteService.cadastrarCliente(cliente);
-            Main.setRoot("home");
         } else {
-            int id = idCliente;
-            String cpf = txtCpf.getText();
-            String nome = txtNome.getText();
-            String email = txtEmail.getText();
-            String telefone = txtTelefone.getText();
-
-            ClienteModel cliente = new ClienteModel(id, cpf, nome, email, telefone);
+            ClienteModel cliente = new ClienteModel(idCliente, cpf, nome, email, telefone);
             clienteService.alterarCliente(cliente);
-            Main.setRoot("home");
         }
+
+        Main.setRoot("home");
     }
 
     public void preencherFormulario(ClienteModel cliente) {

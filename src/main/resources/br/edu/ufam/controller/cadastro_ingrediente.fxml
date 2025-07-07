@@ -61,14 +61,14 @@
             <Insets />
          </opaqueInsets>
          <top>
-            <Label text="Cadastrar Ingrediente" BorderPane.alignment="TOP_LEFT">
+            <Label fx:id="lblTitulo" text="Titulo" BorderPane.alignment="TOP_LEFT">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
          </top>
          <bottom>
-            <Button mnemonicParsing="false" onAction="#clickCadastrar" styleClass="botao-principal" text="Cadastrar" BorderPane.alignment="CENTER" />
+            <Button fx:id="btnSalvar" mnemonicParsing="false" onAction="#clickSalvar" styleClass="botao-principal" text="Salvar" BorderPane.alignment="CENTER" />
          </bottom>
       </BorderPane>
    </children>
