@@ -38,17 +38,19 @@
                <children>
                   <VBox alignment="CENTER" prefHeight="250.0" prefWidth="270.0" spacing="5.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <TableView prefHeight="283.0" prefWidth="285.0" VBox.vgrow="ALWAYS">
+                        <TableView fx:id="tableView" prefHeight="283.0" prefWidth="285.0" VBox.vgrow="ALWAYS">
                           <columns>
-                            <TableColumn prefWidth="46.39999562501907" text="ID" />
-                            <TableColumn prefWidth="132.80004119873047" text="Nome" />
-                              <TableColumn prefWidth="84.00003051757812" text="Quantidade" />
+                            <TableColumn fx:id="colId" prefWidth="46.39999562501907" text="ID" />
+                            <TableColumn fx:id="colNomeProduto" prefWidth="91.1999626159668" text="Nome" />
+                              <TableColumn fx:id="colQuantidade" prefWidth="97.60004425048828" text="Quantidade" />
+                              <TableColumn fx:id="colPrecoUnitario" prefWidth="72.79997253417969" text="Preço" />
+                              <TableColumn fx:id="colAcao" prefWidth="72.79997253417969" text="Ação" />
                           </columns>
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                            </columnResizePolicy>
                         </TableView>
-                        <Button mnemonicParsing="false" prefWidth="80.8" styleClass="botao-principal" text="Produto" />
+                        <Button mnemonicParsing="false" onAction="#adicionarProduto" prefWidth="80.8" styleClass="botao-principal" text="Produto" />
                      </children>
                   </VBox>
                   <VBox layoutX="10.0" layoutY="10.0" prefHeight="6.0" prefWidth="300.0" spacing="10.0" HBox.hgrow="ALWAYS">
@@ -61,7 +63,19 @@
                         <VBox prefHeight="11.0" prefWidth="258.0">
                            <children>
                               <Label text="Valor total" />
-                              <TextField fx:id="txtTelefone" prefHeight="25.0" prefWidth="202.0" styleClass="caixa-texto" />
+                              <TextField fx:id="txtValorTotal" editable="false" prefHeight="25.0" prefWidth="202.0" styleClass="caixa-texto" />
+                           </children>
+                        </VBox>
+                        <VBox layoutX="10.0" layoutY="40.0" prefHeight="11.0" prefWidth="258.0">
+                           <children>
+                              <Label text="Valor Pago" />
+                              <TextField fx:id="txtValorPago" prefHeight="25.0" prefWidth="202.0" styleClass="caixa-texto" />
+                           </children>
+                        </VBox>
+                        <VBox layoutX="10.0" layoutY="98.0" prefHeight="11.0" prefWidth="258.0">
+                           <children>
+                              <Label text="Troco" />
+                              <TextField fx:id="txtTroco" editable="false" prefHeight="25.0" prefWidth="202.0" styleClass="caixa-texto" />
                            </children>
                         </VBox>
                         <Pane prefHeight="85.0" prefWidth="300.0" VBox.vgrow="ALWAYS" />
