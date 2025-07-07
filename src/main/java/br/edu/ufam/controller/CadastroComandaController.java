@@ -6,7 +6,10 @@ import java.util.List;
 
 import br.edu.ufam.Main;
 import br.edu.ufam.model.ClienteModel;
+import br.edu.ufam.model.ComandaModel;
 import br.edu.ufam.model.ComandaProdutoTableModel;
+import br.edu.ufam.model.UsuarioModel;
+import br.edu.ufam.service.ComandaService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,6 +20,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
@@ -25,6 +29,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class CadastroComandaController {
+    private final ComandaService comandaService = new ComandaService();
+
     private ClienteModel clienteComanda;
     private List<ComandaProdutoTableModel> produtosComanda;
 
@@ -38,6 +44,8 @@ public class CadastroComandaController {
     private TextField txtValorPago;
     @FXML
     private TextField txtTroco;
+    @FXML
+    private TextArea txtObservacoes;
     @FXML
     private TableView<ComandaProdutoTableModel> tableView;
     @FXML
@@ -213,9 +221,37 @@ public class CadastroComandaController {
     }
 
     @FXML
-    public void finalizarComanda() {
+    public void clickSalvar() {
+        salvarComanda("ABERTA");
+    }
+
+    @FXML
+    public void clickFinalizar() {
+        if (produtosComanda == null || produtosComanda.isEmpty()) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Erro");
+            alert.setHeaderText("Falha ao finalizar comanda");
+            alert.setContentText(
+                    "Nenhum produto adicionado à comanda. Por favor, adicione produtos antes de finalizar.");
+            alert.showAndWait();
+            return;
+        }
+
+        salvarComanda("FECHADA");
+    }
+
+    public void salvarComanda(String operacao) {
         if (clienteComanda != null) {
-            System.out.println("Comanda finalizada para o cliente: " + clienteComanda.getNome());
+            int id = 0;
+            String dataCriacao = new java.sql.Timestamp(System.currentTimeMillis()).toString();
+            String status = operacao;
+            ClienteModel cliente = clienteComanda;
+            UsuarioModel usuario = Main.usuarioLogado;
+            float valorTotal = txtValorTotal.getText().replace("R$", "").replace(",", ".").trim().isEmpty() ? 0
+                    : Float.parseFloat(txtValorTotal.getText().replace("R$", "").replace(",", ".").trim());
+
+            ComandaModel comanda = new ComandaModel(id, dataCriacao, status, cliente, usuario, valorTotal);
+            comandaService.cadastrarComanda(comanda);
         } else {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Erro");
@@ -223,6 +259,12 @@ public class CadastroComandaController {
             alert.setContentText(
                     "Nenhum cliente selecionado. Por favor, adicione um cliente antes de finalizar a comanda.");
             alert.showAndWait();
+        }
+
+        try {
+            Main.setRoot("home");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
