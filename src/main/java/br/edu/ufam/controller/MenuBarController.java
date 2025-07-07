@@ -20,6 +20,12 @@ public class MenuBarController {
     }
 
     @FXML
+    public void clickHome() throws IOException {
+        System.out.println("Home clicado.");
+        Main.setRoot("home");
+    }
+
+    @FXML
     public void clickCadastrarUsuario() throws IOException {
         System.out.println("Cadastro de usuário clicado.");
         Main.setRoot("cadastro_usuario");

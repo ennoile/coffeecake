@@ -1,5 +1,7 @@
 package br.edu.ufam.controller;
 
+import java.io.IOException;
+
 import br.edu.ufam.Main;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -10,18 +12,11 @@ public class HomeController {
 
     @FXML
     private void initialize() {
-        Main.setResizable(true);
-        if (lblUsuarioLogado != null) {
-            lblUsuarioLogado.setText("Olá: " + br.edu.ufam.Main.usuarioLogado.getNome());
-        }
+        lblUsuarioLogado.setText("Olá: " + br.edu.ufam.Main.usuarioLogado.getNome());
     }
 
     @FXML
-    private void clickSair() {
-        try {
-            Main.setRoot("login");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void clickCliente() throws IOException {
+        Main.setRoot("lista_cliente");
     }
 }
