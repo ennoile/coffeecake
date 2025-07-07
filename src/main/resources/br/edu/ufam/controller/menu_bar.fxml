@@ -8,6 +8,9 @@
   <menus>
     <Menu fx:id="menuUsuario" mnemonicParsing="false" text="Usuários">
       <items>
+        <MenuItem mnemonicParsing="false" onAction="#clickListarUsuarios" text="Listar" />
+      </items>
+      <items>
         <MenuItem mnemonicParsing="false" onAction="#clickCadastrarUsuario" text="Cadastrar" />
       </items>
     </Menu>

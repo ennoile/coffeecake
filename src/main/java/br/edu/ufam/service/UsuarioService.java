@@ -13,7 +13,7 @@ import br.edu.ufam.model.UsuarioModel;
 public class UsuarioService {
     public List<UsuarioModel> listarUsuarios() {
         List<UsuarioModel> usuarios = new ArrayList<>();
-        String sql = "SELECT id, nome, telefone, email, login, funcao FROM usuario";
+        String sql = "SELECT id_usuario, nome, email, telefone, login, funcao FROM usuario";
 
         try (Connection conn = ConexaoDatabase.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -21,7 +21,7 @@ public class UsuarioService {
 
             while (rs.next()) {
                 UsuarioModel usuario = new UsuarioModel(
-                        rs.getInt("id"),
+                        rs.getInt("id_usuario"),
                         rs.getString("nome"),
                         rs.getString("telefone"),
                         rs.getString("email"),
@@ -62,8 +62,8 @@ public class UsuarioService {
         }
     }
 
-    public void alterarUsuario(String nomeBusca, UsuarioModel usuario) {
-        String sql = "UPDATE usuario SET nome = ?, telefone = ?, email = ?, login = ?, senha = ?, funcao = ?  WHERE nome = ?";
+    public void alterarUsuario(UsuarioModel usuario) {
+        String sql = "UPDATE usuario SET nome = ?, telefone = ?, email = ?, login = ?, senha = ?, funcao = ?  WHERE id_usuario = ?";
 
         try (Connection conn = ConexaoDatabase.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -73,7 +73,7 @@ public class UsuarioService {
             stmt.setString(4, usuario.getLogin());
             stmt.setString(5, usuario.getSenha());
             stmt.setString(6, usuario.getFuncao());
-            stmt.setString(7, nomeBusca);
+            stmt.setInt(7, usuario.getId());
 
             int linha = stmt.executeUpdate();
 
