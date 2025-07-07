@@ -4,8 +4,21 @@ import java.io.IOException;
 
 import br.edu.ufam.Main;
 import javafx.fxml.FXML;
+import javafx.scene.control.Menu;
 
 public class MenuBarController {
+    @FXML
+    private Menu menuUsuario;
+
+    @FXML
+    public void initialize() {
+        if (Main.usuarioLogado.getFuncao().equals("gerente")) {
+            menuUsuario.setVisible(true);
+        } else {
+            menuUsuario.setVisible(false);
+        }
+    }
+
     @FXML
     public void clickCadastrarUsuario() throws IOException {
         System.out.println("Cadastro de usuário clicado.");

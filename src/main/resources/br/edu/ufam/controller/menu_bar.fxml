@@ -6,7 +6,7 @@
 
 <MenuBar xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ufam.controller.MenuBarController">
   <menus>
-    <Menu mnemonicParsing="false" text="Usuários">
+    <Menu fx:id="menuUsuario" mnemonicParsing="false" text="Usuários">
       <items>
         <MenuItem mnemonicParsing="false" onAction="#clickCadastrarUsuario" text="Cadastrar" />
       </items>
