@@ -251,7 +251,7 @@ public class CadastroComandaController {
                     : Float.parseFloat(txtValorTotal.getText().replace("R$", "").replace(",", ".").trim());
 
             ComandaModel comanda = new ComandaModel(id, dataCriacao, status, cliente, usuario, valorTotal);
-            comandaService.cadastrarComanda(comanda);
+            comandaService.cadastrarComanda(comanda, produtosComanda);
         } else {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Erro");

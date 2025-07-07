@@ -3,14 +3,14 @@ package br.edu.ufam.model;
 public class ComandaProdutoModel {
     private int id;
     private int quantidade;
-    private int idComanda;
-    private int idProduto;
+    private ComandaModel comanda;
+    private ProdutoModel produto;
 
-    public ComandaProdutoModel(int id, int quantidade, int idComanda, int idProduto) {
+    public ComandaProdutoModel(int id, int quantidade, ComandaModel comanda, ProdutoModel produto) {
         this.id = id;
         this.quantidade = quantidade;
-        this.idComanda = idComanda;
-        this.idProduto = idProduto;
+        this.comanda = comanda;
+        this.produto = produto;
     }
 
     public int getId() {
@@ -29,19 +29,19 @@ public class ComandaProdutoModel {
         this.quantidade = quantidade;
     }
 
-    public int getIdComanda() {
-        return idComanda;
+    public ComandaModel getComanda() {
+        return comanda;
     }
 
-    public void setIdComanda(int idComanda) {
-        this.idComanda = idComanda;
+    public void setIdComanda(ComandaModel comanda) {
+        this.comanda = comanda;
     }
 
-    public int getIdProduto() {
-        return idProduto;
+    public ProdutoModel getProduto() {
+        return produto;
     }
 
-    public void setIdProduto(int idProduto) {
-        this.idProduto = idProduto;
+    public void setIdProduto(ProdutoModel produto) {
+        this.produto = produto;
     }
 }
