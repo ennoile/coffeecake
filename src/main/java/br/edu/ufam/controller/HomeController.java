@@ -12,7 +12,7 @@ public class HomeController {
     private void initialize() {
         Main.setResizable(true);
         if (lblUsuarioLogado != null) {
-            lblUsuarioLogado.setText("Usuário Logado: " + br.edu.ufam.Main.usuarioLogado.getNome());
+            lblUsuarioLogado.setText("Olá: " + br.edu.ufam.Main.usuarioLogado.getNome());
         }
     }
 

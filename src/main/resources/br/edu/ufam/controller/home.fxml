@@ -13,8 +13,7 @@
       <fx:include source="menu_bar.fxml" />
       <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="fundo-principal">
          <children>
-            <Label layoutX="522.0" layoutY="14.0" text="Olá" />
-            <Label fx:id="lblUsuarioLogado" layoutX="558.0" layoutY="14.0" text="Label" />
+            <Label fx:id="lblUsuarioLogado" layoutX="14.0" layoutY="14.0" text="Label" />
             <Button layoutX="522.0" layoutY="347.0" mnemonicParsing="false" onAction="#clickSair" styleClass="botao-principal" text="Sair" />
             <ImageView fitHeight="100.0" fitWidth="200.0" layoutX="48.0" layoutY="247.0">
                <image>
