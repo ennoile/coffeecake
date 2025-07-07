@@ -39,7 +39,7 @@
                   <Line endX="100.0" endY="12.0" startX="100.20706176757812" startY="291.2928771972656" />
                   <VBox alignment="CENTER" prefHeight="282.0" prefWidth="286.0" spacing="15.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="118.0" styleClass="botao-principal" text="Comanda" />
+                        <Button mnemonicParsing="false" onAction="#clickComanda" prefHeight="35.0" prefWidth="118.0" styleClass="botao-principal" text="Comanda" />
                         <Button mnemonicParsing="false" onAction="#clickCliente" prefHeight="35.0" prefWidth="118.0" styleClass="botao-principal" text="Cliente" />
                      </children>
                   </VBox>

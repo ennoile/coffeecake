@@ -16,6 +16,11 @@ public class HomeController {
     }
 
     @FXML
+    private void clickComanda() throws IOException {
+        Main.setRoot("cadastro_comanda");
+    }
+
+    @FXML
     private void clickCliente() throws IOException {
         Main.setRoot("lista_cliente");
     }

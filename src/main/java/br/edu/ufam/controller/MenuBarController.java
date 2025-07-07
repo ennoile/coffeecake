@@ -4,9 +4,14 @@ import java.io.IOException;
 
 import br.edu.ufam.Main;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 
 public class MenuBarController {
+    @FXML
+    private Label lblUsuarioLogado;
+    @FXML
+    private Label lblTitulo;
     @FXML
     private Menu menuUsuario;
 
