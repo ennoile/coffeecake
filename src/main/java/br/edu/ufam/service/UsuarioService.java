@@ -87,19 +87,19 @@ public class UsuarioService {
         }
     }
 
-    public UsuarioModel pesquisarUsuario(String nome) {
+    public UsuarioModel pesquisarUsuario(int id) {
         UsuarioModel usuario = null;
-        String sql = "SELECT id, nome, telefone, email, login, funcao FROM  usuario WHERE nome = ?";
+        String sql = "SELECT id_usuario, nome, telefone, email, login, funcao FROM  usuario WHERE id_usuario = ?";
 
         try (Connection conn = ConexaoDatabase.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, nome);
+            stmt.setInt(1, id);
 
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
                 usuario = new UsuarioModel(
-                        rs.getInt("id"),
+                        rs.getInt("id_usuario"),
                         rs.getString("nome"),
                         rs.getString("telefone"),
                         rs.getString("email"),
@@ -110,7 +110,7 @@ public class UsuarioService {
                 System.out.println("Usuário não encontrado.");
             }
         } catch (SQLException e) {
-            System.out.println("Erro ao pesquisar usuários (" + nome + "): " + e.getMessage());
+            System.out.println("Erro ao pesquisar usuários (" + id + "): " + e.getMessage());
         }
 
         return usuario;

@@ -4,7 +4,6 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 
-
 <MenuBar stylesheets="@css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.edu.ufam.controller.MenuBarController">
   <menus>
     <Menu fx:id="menuUsuario" mnemonicParsing="false" text="Menu">
@@ -12,6 +11,15 @@
         <MenuItem mnemonicParsing="false" onAction="#clickHome" text="Home" />
       </items>
     </Menu>
+      <Menu fx:id="menuUsuario1" mnemonicParsing="false" text="Comanda">
+         <items>
+            <MenuItem mnemonicParsing="false" onAction="#clickListarComandasTodas" text="Todas" />
+            <MenuItem mnemonicParsing="false" onAction="#clickListarComandasAbertas" text="Abertas" />
+            <MenuItem mnemonicParsing="false" onAction="#clickListarComandasFechadas" text="Fechadas" />
+            <MenuItem mnemonicParsing="false" onAction="#clickListarComandasCanceladas" text="Canceladas" />
+            <MenuItem mnemonicParsing="false" onAction="#clickCadastrarComanda" text="Cadastrar" />
+         </items>
+      </Menu>
     <Menu fx:id="menuUsuario" mnemonicParsing="false" text="Usuários">
       <items>
         <MenuItem mnemonicParsing="false" onAction="#clickListarUsuarios" text="Listar" />

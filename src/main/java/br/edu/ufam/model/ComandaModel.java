@@ -2,16 +2,16 @@ package br.edu.ufam.model;
 
 public class ComandaModel {
     int id;
-    String dataCriacao;
+    String data;
     String status;
     ClienteModel cliente;
     UsuarioModel usuario;
     float valorTotal;
 
-    public ComandaModel(int id, String dataCriacao, String status, ClienteModel cliente, UsuarioModel usuario,
+    public ComandaModel(int id, String data, String status, ClienteModel cliente, UsuarioModel usuario,
             float valorTotal) {
         this.id = id;
-        this.dataCriacao = dataCriacao;
+        this.data = data;
         this.status = status;
         this.cliente = cliente;
         this.usuario = usuario;
@@ -26,12 +26,12 @@ public class ComandaModel {
         this.id = id;
     }
 
-    public String getDataCriacao() {
-        return dataCriacao;
+    public String getData() {
+        return data;
     }
 
-    public void setDataCriacao(String dataCriacao) {
-        this.dataCriacao = dataCriacao;
+    public void setData(String dataCriacao) {
+        this.data = dataCriacao;
     }
 
     public String getStatus() {

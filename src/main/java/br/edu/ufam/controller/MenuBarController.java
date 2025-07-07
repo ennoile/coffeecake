@@ -4,6 +4,9 @@ import java.io.IOException;
 
 import br.edu.ufam.Main;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 
@@ -28,6 +31,54 @@ public class MenuBarController {
     public void clickHome() throws IOException {
         System.out.println("Home clicado.");
         Main.setRoot("home");
+    }
+
+    @FXML
+    public void clickListarComandasAbertas() throws IOException {
+        System.out.println("Listar comandas abertas clicado.");
+        listarComandas("ABERTA");
+    }
+
+    @FXML
+    public void clickListarComandasFechadas() throws IOException {
+        System.out.println("Listar comandas fechadas clicado.");
+        listarComandas("FECHADA");
+    }
+
+    @FXML
+    public void clickListarComandasCanceladas() throws IOException {
+        System.out.println("Listar comandas canceladas clicado.");
+        listarComandas("CANCELADA");
+    }
+
+    @FXML
+    public void clickListarComandasTodas() throws IOException {
+        System.out.println("Listar todas comandas clicado.");
+        listarComandas("ALL");
+    }
+
+    private void listarComandas(String filtro) throws IOException {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("lista_comanda.fxml"));
+            Parent root = loader.load();
+
+            ListaComandaController controller = loader.getController();
+            controller.setFiltroStatus(filtro);
+
+            Scene scene = Main.getScene();
+            scene.setRoot(root);
+
+            Main.setMinWindowSize(600, 400);
+            Main.setResizable(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void clickCadastrarComanda() throws IOException {
+        System.out.println("Cadastrar comanda clicado.");
+        Main.setRoot("cadastro_comanda");
     }
 
     @FXML

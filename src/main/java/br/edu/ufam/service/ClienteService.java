@@ -80,4 +80,28 @@ public class ClienteService {
             System.out.println("Error ao alterar produto!" + e.getMessage());
         }
     }
+
+    public ClienteModel pesquisarCliente(int id) {
+        ClienteModel cliente = null;
+        String sql = "SELECT id_cliente, cpf, nome, email, telefone FROM cliente WHERE id_cliente = ?";
+
+        try (Connection conn = ConexaoDatabase.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                cliente = new ClienteModel(
+                        rs.getInt("id_cliente"),
+                        rs.getString("cpf"),
+                        rs.getString("nome"),
+                        rs.getString("email"),
+                        rs.getString("telefone"));
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao pesquisar cliente: " + e.getMessage());
+        }
+
+        return cliente;
+    }
 }
