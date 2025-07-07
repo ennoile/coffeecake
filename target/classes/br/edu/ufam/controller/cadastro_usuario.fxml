@@ -76,14 +76,14 @@
             <Insets />
          </opaqueInsets>
          <top>
-            <Label text="Cadastrar Usuário" BorderPane.alignment="TOP_LEFT">
+            <Label text="Titulo" BorderPane.alignment="TOP_LEFT">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
          </top>
          <bottom>
-            <Button mnemonicParsing="false" onAction="#clickCadastrar" styleClass="botao-principal" text="Cadastrar" BorderPane.alignment="CENTER" />
+            <Button mnemonicParsing="false" onAction="#clickCadastrar" styleClass="botao-principal" text="Salvar" BorderPane.alignment="CENTER" />
          </bottom>
       </BorderPane>
    </children>

@@ -4,18 +4,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.ufam.config.ConexaoDatabase;
-import br.edu.ufam.model.EstoqueProduto;
 import br.edu.ufam.model.ProdutoModel;
 
 public class ProdutoService {
     public List<ProdutoModel> listarProdutos() {
         List<ProdutoModel> produtos = new ArrayList<>();
-        String sql = "SELECT id, nome, preco, descricao, quantidade_estoque from produto";
+        String sql = "SELECT id_produto, nome, preco, descricao, quantidade_disponivel from produto";
 
         try (Connection conn = ConexaoDatabase.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -27,7 +25,7 @@ public class ProdutoService {
                         rs.getString("nome"),
                         rs.getFloat("preco"),
                         rs.getString("descricao"),
-                        rs.getInt("quantidade_estoque"));
+                        rs.getInt("quantidade_disponivel"));
                 produtos.add(produto);
             }
 
@@ -67,15 +65,16 @@ public class ProdutoService {
         return null;
     }
 
-    public void alterarProduto(String nomeBusca, ProdutoModel produto) {
-        String sql = "UPDATE produto SET id = ?, nome = ?, preco = ?, descricao = ? WHERE nome = ?";
+    public void alterarProduto(ProdutoModel produto) {
+        String sql = "UPDATE produto SET nome = ?, descricao = ?, quantidade_disponivel = ?, preco = ? WHERE id_produto = ?";
 
         try (Connection conn = ConexaoDatabase.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, produto.getId());
-            stmt.setString(2, produto.getNome());
-            stmt.setFloat(3, produto.getPreco());
-            stmt.setString(4, produto.getDescricao());
+            stmt.setString(1, produto.getNome());
+            stmt.setString(2, produto.getDescricao());
+            stmt.setInt(3, produto.getQuantidade());
+            stmt.setFloat(4, produto.getPreco());
+            stmt.setInt(5, produto.getId());
 
             int linha = stmt.executeUpdate();
 
@@ -114,47 +113,5 @@ public class ProdutoService {
         }
 
         return produto;
-    }
-
-    public void cadastrarEstoque(EstoqueProduto estoque) {
-        String sql = "INSERT INTO estoque_produto(id_produto, quantidade, data_entrada) VALUES (?, ?, ?)";
-
-        try (Connection conn = ConexaoDatabase.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, estoque.getProduto().getId());
-            stmt.setInt(2, estoque.getQuantidade());
-            stmt.setTimestamp(3, Timestamp.valueOf(estoque.getDataEntrada()));
-
-            int linha = stmt.executeUpdate();
-
-            if (linha > 0) {
-                System.out.println("Estoque cadastrado com sucesso!");
-            } else {
-                System.out.println("Falha ao cadastrar estoque.");
-            }
-        } catch (SQLException e) {
-            System.out.println("Erro ao cadastrar estoque: " + e.getMessage());
-        }
-    }
-
-    public void alterarEstoque(EstoqueProduto estoque) {
-        String sql = "UPDATE estoque_produto SET quantidade = ?, data_entrada = ? WHERE id_produto = ?";
-
-        try (Connection conn = ConexaoDatabase.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, estoque.getQuantidade());
-            stmt.setTimestamp(2, Timestamp.valueOf(estoque.getDataEntrada()));
-            stmt.setInt(3, estoque.getProduto().getId());
-
-            int linha = stmt.executeUpdate();
-
-            if (linha > 0) {
-                System.out.println("Estoque alterado com sucesso!");
-            } else {
-                System.out.println("Falha ao alterar estoque.");
-            }
-        } catch (SQLException e) {
-            System.out.println("Erro ao alterar estoque: " + e.getMessage());
-        }
     }
 }

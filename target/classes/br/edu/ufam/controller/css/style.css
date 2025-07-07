@@ -51,3 +51,26 @@
   -fx-border-width: 2px;
   -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 3, 0, 0, 2);
 }
+
+.caixa-texto-area {
+  -fx-background-color: #00000000;
+  -fx-text-fill: #3e2b17;
+  -fx-border-color: #d4b98d;
+  -fx-border-radius: 10px;
+  -fx-font-size: 13px;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 2, 0, 0, 1);
+  -fx-focus-color: transparent;
+  -fx-faint-focus-color: transparent;
+}
+
+.caixa-texto-area:focused {
+  -fx-border-color: #a67c52;
+  -fx-border-width: 2px;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 3, 0, 0, 2);
+}
+
+.caixa-texto-area .content {
+  -fx-background-color: #e0c69a;
+  -fx-border-color: #d4b98d;
+  -fx-border-radius: 10px;
+}

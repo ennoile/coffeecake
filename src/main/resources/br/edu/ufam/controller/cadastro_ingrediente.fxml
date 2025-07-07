@@ -28,7 +28,7 @@
                         <VBox prefHeight="189.0" prefWidth="270.0">
                            <children>
                               <Label text="Descrição" />
-                              <TextArea fx:id="txtDescricao" prefHeight="200.0" prefWidth="200.0" style="-fx-background-radius: 10;" styleClass="caixa-texto" />
+                              <TextArea fx:id="txtDescricao" prefHeight="200.0" prefWidth="200.0" styleClass="caixa-texto-area" />
                            </children>
                         </VBox>
                      </children>
