@@ -52,7 +52,8 @@
     </Menu>
     <Menu mnemonicParsing="false" text="Opções">
       <items>
-        <MenuItem mnemonicParsing="false" onAction="#clickLogout" text="Sair" />
+        <MenuItem fx:id="relatorio" mnemonicParsing="false" onAction="#clickRelatorio" text="Relatorio" />
+            <MenuItem mnemonicParsing="false" onAction="#clickLogout" text="Sair" />
       </items>
     </Menu>
   </menus>

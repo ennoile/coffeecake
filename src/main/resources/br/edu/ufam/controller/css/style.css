@@ -156,3 +156,27 @@
   -fx-background-color: #c99c63;
   -fx-text-fill: white;
 }
+
+.choice-box {
+    -fx-background-color: #f3d7a0;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 4 10;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 13px;
+    -fx-text-fill: #5a3e1b;
+    -fx-border-color: #d4b072;
+    -fx-border-width: 1;
+}
+
+.choice-box .label {
+    -fx-text-fill: #5a3e1b;
+}
+
+.choice-box:hover {
+    -fx-background-color: #e5c690;
+}
+
+.choice-box .arrow {
+    -fx-background-color: #5a3e1b;
+}

@@ -7,23 +7,23 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 
 public class MenuBarController {
     @FXML
-    private Label lblUsuarioLogado;
-    @FXML
-    private Label lblTitulo;
-    @FXML
     private Menu menuUsuario;
+    @FXML
+    private MenuItem relatorio;
 
     @FXML
     public void initialize() {
-        if (Main.usuarioLogado.getFuncao().equals("gerente")) {
+        if (Main.usuarioLogado.getFuncao().equals("GERENTE")) {
             menuUsuario.setVisible(true);
+            relatorio.setVisible(true);
         } else {
             menuUsuario.setVisible(false);
+            relatorio.setVisible(false);
         }
     }
 
@@ -127,6 +127,12 @@ public class MenuBarController {
     public void clickCadastrarCliente() throws IOException {
         System.out.println("Cadastro de Cliente clicado.");
         Main.setRoot("cadastro_cliente");
+    }
+
+    @FXML
+    public void clickRelatorio() throws IOException {
+        System.out.println("Relatorio clicado.");
+        Main.setRoot("relatorio");
     }
 
     @FXML

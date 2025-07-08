@@ -7,6 +7,7 @@ import br.edu.ufam.model.UsuarioModel;
 import br.edu.ufam.service.UsuarioService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
@@ -22,7 +23,7 @@ public class CadastroUsuarioController {
     @FXML
     private TextField txtTelefone;
     @FXML
-    private TextField txtFuncao;
+    private ChoiceBox<String> choiceBoxFuncao;
     @FXML
     private TextField txtLogin;
     @FXML
@@ -37,6 +38,9 @@ public class CadastroUsuarioController {
     public void initialize() {
         lblTitulo.setText("Cadastrar Usuário");
         btnSalvar.setText("Salvar");
+
+        choiceBoxFuncao.getItems().addAll("FUNCIONARIO", "GERENTE");
+        choiceBoxFuncao.setValue("FUNCIONARIO");
     }
 
     @FXML
@@ -46,7 +50,7 @@ public class CadastroUsuarioController {
         String email = txtEmail.getText();
         String login = txtLogin.getText();
         String senha = txtSenha.getText();
-        String funcao = txtFuncao.getText();
+        String funcao = choiceBoxFuncao.getValue();
         if (idUsuario == -1) {
             UsuarioModel usuario = new UsuarioModel(0, nome, telefone, email, login, senha, funcao);
             service.cadastrarUsuario(usuario);
@@ -65,7 +69,7 @@ public class CadastroUsuarioController {
         txtTelefone.setText(usuario.getTelefone());
         txtLogin.setText(usuario.getLogin());
         txtSenha.setText(usuario.getSenha());
-        txtFuncao.setText(usuario.getFuncao());
+        choiceBoxFuncao.setValue(usuario.getFuncao());
 
         lblTitulo.setText("Alterar Usuário");
         btnSalvar.setText("Alterar");
