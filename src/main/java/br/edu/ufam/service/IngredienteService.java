@@ -78,27 +78,27 @@ public class IngredienteService {
         }
     }
 
-    public IngredienteModel pesquisarIngrediente(String nome) {
+    public IngredienteModel pesquisarIngrediente(int idIngrediente) {
         IngredienteModel ingrediente = null;
-        String sql = "SELECT id_ingrediente, nome, descricao FROM ingrediente WHERE nome = ?";
+        String sql = "SELECT id_ingrediente, nome, descricao, quantidade_disponivel FROM ingrediente WHERE id_ingrediente = ?";
 
         try (Connection conn = ConexaoDatabase.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, nome);
+            stmt.setInt(1, idIngrediente);
 
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
                 ingrediente = new IngredienteModel(
-                        rs.getInt("id_ngrediente"),
+                        rs.getInt("id_ingrediente"),
                         rs.getString("nome"),
                         rs.getString("descricao"),
-                        rs.getInt("quantidade"));
+                        rs.getInt("quantidade_disponivel"));
             } else {
                 System.out.println("Ingrediente não encontrado.");
             }
         } catch (SQLException e) {
-            System.out.println("Erro ao pesquisar ingrediente (" + nome + "): " + e.getMessage());
+            System.out.println("Erro ao pesquisar ingrediente (" + idIngrediente + "): " + e.getMessage());
         }
 
         return ingrediente;

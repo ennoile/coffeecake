@@ -42,4 +42,17 @@ public class IngredienteModel {
     public void setQuantodade(int quantidade){
         this.quantidade = quantidade;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        IngredienteModel other = (IngredienteModel) obj;
+        return id == other.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(id);
+    }
 }

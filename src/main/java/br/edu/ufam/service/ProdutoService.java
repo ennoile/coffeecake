@@ -8,9 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.ufam.config.ConexaoDatabase;
+import br.edu.ufam.model.IngredienteModel;
+import br.edu.ufam.model.ProdutoIngredienteModel;
 import br.edu.ufam.model.ProdutoModel;
 
 public class ProdutoService {
+    private final IngredienteService ingredienteService = new IngredienteService();
+
     public List<ProdutoModel> listarProdutos() {
         List<ProdutoModel> produtos = new ArrayList<>();
         String sql = "SELECT id_produto, nome, preco, descricao, quantidade_disponivel from produto";
@@ -35,7 +39,7 @@ public class ProdutoService {
         return produtos;
     }
 
-    public ProdutoModel cadastrarProduto(ProdutoModel produto) {
+    public ProdutoModel cadastrarProduto(ProdutoModel produto, List<ProdutoIngredienteModel> ingredientes) {
         String sql = "INSERT INTO produto(nome, preco, descricao, quantidade_disponivel) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = ConexaoDatabase.getConnection();
@@ -52,7 +56,6 @@ public class ProdutoService {
                     if (generatedKeys.next()) {
                         produto.setId(generatedKeys.getInt(1));
                         System.out.println("Produto cadastrado com sucesso!");
-                        return produto;
                     }
                 }
             } else {
@@ -60,6 +63,25 @@ public class ProdutoService {
             }
         } catch (SQLException e) {
             System.out.println("Error ao cadastrar produto!" + e.getMessage());
+        }
+
+        if (ingredientes != null && !ingredientes.isEmpty() && produto.getId() > 0) {
+            String sqlIngrediente = "INSERT INTO produto_ingrediente(fk_produto, fk_ingrediente, quantidade_ingrediente) VALUES (?, ?, ?)";
+
+            try (Connection conn = ConexaoDatabase.getConnection();
+                    PreparedStatement stmtIngrediente = conn.prepareStatement(sqlIngrediente)) {
+                for (ProdutoIngredienteModel ingrediente : ingredientes) {
+                    stmtIngrediente.setInt(1, produto.getId());
+                    stmtIngrediente.setInt(2, ingrediente.getIngrediente().getId());
+                    stmtIngrediente.setInt(3, ingrediente.getQuantidadeUsar());
+                    stmtIngrediente.addBatch();
+                }
+                stmtIngrediente.executeBatch();
+                System.out.println("Ingredientes cadastrados com sucesso!");
+                return produto;
+            } catch (SQLException e) {
+                System.out.println("Erro ao cadastrar ingredientes do produto: " + e.getMessage());
+            }
         }
 
         return null;
@@ -113,5 +135,29 @@ public class ProdutoService {
         }
 
         return produto;
+    }
+
+    public List<ProdutoIngredienteModel> listarIngredientesDoProduto(int idProduto) {
+        List<ProdutoIngredienteModel> ingredientes = new ArrayList<>();
+        String sql = "SELECT pi.fk_ingrediente as id_ingrediente, i.nome, pi.quantidade_ingrediente FROM produto_ingrediente pi "
+                + "JOIN ingrediente i ON pi.fk_ingrediente = i.id_ingrediente "
+                + "WHERE pi.fk_produto = ?";
+
+        try (Connection conn = ConexaoDatabase.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, idProduto);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                IngredienteModel ingrediente = ingredienteService.pesquisarIngrediente(rs.getInt("id_ingrediente"));
+                int quantidadeUsar = rs.getInt("quantidade_ingrediente");
+                ProdutoIngredienteModel produtoIngrediente = new ProdutoIngredienteModel(null, ingrediente, quantidadeUsar);
+                ingredientes.add(produtoIngrediente);
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao listar ingredientes do produto: " + e.getMessage());
+        }
+
+        return ingredientes;
     }
 }
