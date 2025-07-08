@@ -183,7 +183,7 @@ public class CadastroProdutoController {
             service.cadastrarProduto(produto, produtoIngredientes);
         } else {
             ProdutoModel produto = new ProdutoModel(idProduto, nome, preco, descricao, quantidade);
-            service.alterarProduto(produto);
+            service.alterarProduto(produto, produtoIngredientes);
         }
 
         Main.setRoot("lista_produto");

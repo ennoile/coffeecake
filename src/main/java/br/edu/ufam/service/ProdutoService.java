@@ -87,7 +87,7 @@ public class ProdutoService {
         return null;
     }
 
-    public void alterarProduto(ProdutoModel produto) {
+    public void alterarProduto(ProdutoModel produto, List<ProdutoIngredienteModel> ingredientes) {
         String sql = "UPDATE produto SET nome = ?, descricao = ?, quantidade_disponivel = ?, preco = ? WHERE id_produto = ?";
 
         try (Connection conn = ConexaoDatabase.getConnection();
@@ -107,6 +107,34 @@ public class ProdutoService {
             }
         } catch (SQLException e) {
             System.out.println("Error ao alterar produto!" + e.getMessage());
+        }
+
+        String sqlIngrediente = "DELETE FROM produto_ingrediente WHERE fk_produto = ?";
+        try (Connection conn = ConexaoDatabase.getConnection();
+                PreparedStatement stmtIngrediente = conn.prepareStatement(sqlIngrediente)) {
+            stmtIngrediente.setInt(1, produto.getId());
+            stmtIngrediente.executeUpdate();
+            System.out.println("Ingredientes removidos com sucesso!");
+        } catch (SQLException e) {
+            System.out.println("Erro ao remover ingredientes do produto: " + e.getMessage());
+        }
+
+        if (ingredientes != null && !ingredientes.isEmpty()) {
+            String sqlInserirIngrediente = "INSERT INTO produto_ingrediente(fk_produto, fk_ingrediente, quantidade_ingrediente) VALUES (?, ?, ?)";
+
+            try (Connection conn = ConexaoDatabase.getConnection();
+                    PreparedStatement stmtInserirIngrediente = conn.prepareStatement(sqlInserirIngrediente)) {
+                for (ProdutoIngredienteModel ingrediente : ingredientes) {
+                    stmtInserirIngrediente.setInt(1, produto.getId());
+                    stmtInserirIngrediente.setInt(2, ingrediente.getIngrediente().getId());
+                    stmtInserirIngrediente.setInt(3, ingrediente.getQuantidadeUsar());
+                    stmtInserirIngrediente.addBatch();
+                }
+                stmtInserirIngrediente.executeBatch();
+                System.out.println("Ingredientes atualizados com sucesso!");
+            } catch (SQLException e) {
+                System.out.println("Erro ao atualizar ingredientes do produto: " + e.getMessage());
+            }
         }
     }
 
@@ -151,7 +179,8 @@ public class ProdutoService {
             while (rs.next()) {
                 IngredienteModel ingrediente = ingredienteService.pesquisarIngrediente(rs.getInt("id_ingrediente"));
                 int quantidadeUsar = rs.getInt("quantidade_ingrediente");
-                ProdutoIngredienteModel produtoIngrediente = new ProdutoIngredienteModel(null, ingrediente, quantidadeUsar);
+                ProdutoIngredienteModel produtoIngrediente = new ProdutoIngredienteModel(null, ingrediente,
+                        quantidadeUsar);
                 ingredientes.add(produtoIngrediente);
             }
         } catch (SQLException e) {
